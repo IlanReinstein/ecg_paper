@@ -45,6 +45,7 @@ m1 <- glmer(Accuracy ~ 1 + sclSeq + (1 + sclSeq|RaterID), data = elbows,
 # Multilevel Model with Diagnosis
 m2 <- glmer(Accuracy ~ 1 + sclSeq*CaseType2 + (1 + sclSeq|RaterID), data = elbows, 
                      family = binomial(link = "logit"), control = glmerControl(optimizer = "bobyqa"))
+saveRDS(m2, 'models/mlm_logistic_Dx.rds')
 
 ################### Model Evaluation #######################
 ## Simulations
