@@ -315,4 +315,7 @@ Test statistic: Mean and Standard Deviation of the Total Number of correct respo
 
 ![Standard Deviation Simulations and Comparison](sims_output/elbow-sd_sims.png)
 
+```{r}
+sessionInfo()
+```
 

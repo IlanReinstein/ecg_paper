@@ -2,6 +2,10 @@
 
 This repository contains the code and data used to generate the models and plots presented in our paper **Multi-level longitudinal learning curve regression models integrated with item difficulty metrics for deliberate practice of visual diagnosis: groundwork for adaptive learning.**
 
+## Paper
+
+The paper for this repository can be found here (TODO).
+
 The structure of this project is such that all R scripts should be run before rendering the final report `manuscript.Rmd` file. The order in which it is run is consistent with each of the sections of the paper:
 
 - Section 3: Linear and Logistic models of learning and plots. See files [`R/linear_models.R`](./R/linear_models.R) and [`R/logistic_models.R](./R/logistic_models.R).
@@ -28,3 +32,10 @@ In order to reproduce the plots and the models please run the scripts in the fol
 2. `logistic_models.R`
 3. `irt_models.R`
 4. `simulations.R`
+
+Once all the files have been created in the respective folders, the report `manuscript.Rmd` should render without issues.
+
+
+-----
+
+If you have any questions or comments about the contents of this repository please contact me at `ilan.reinstein [at] nyulangone.org`.
