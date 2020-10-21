@@ -64,15 +64,17 @@ g1 <- summary_stat_plot(y_sims = m0.rep, y_real = y, model = "Complete Pooling",
                         n_items = n.items, n_learners = n.learner)
 g2 <- summary_stat_plot(y_sims = m1.rep, y_real = y, model = "MLM - No Diagnosis",
                         n_items = n.items, n_learners = n.learner)
-g3 <- summary_stat_plot(y_sims = m2.rep, y_real = y, 
-                        model = "MLM - With Diagnosis", n.items, n.learner)
+g3 <- summary_stat_plot(y_sims = m2.rep, y_real = y, model = "MLM - With Diagnosis",
+                        n_items = n.items, n_learners = n.learner)
 
 ## Mean
 leg <- cowplot::get_legend(g1$mean_plot + theme(legend.position = "bottom"))
 grid1 <- cowplot::plot_grid(g1$mean_plot + theme(legend.position = "none"), 
                             g2$mean_plot + theme(legend.position = "none"), 
                             g3$mean_plot + theme(legend.position = "none"), nrow = 1)
+#800*320
 cowplot::plot_grid(grid1, leg, nrow = 2, rel_heights = c(1, 0.1))
+ggsave('sims_output/elbow-mean_sims.png', width = 8, height = 3.2, units = 'in')
 
 ## SD
 leg <- cowplot::get_legend(g1$sd_plot + theme(legend.position = "bottom"))
@@ -81,6 +83,7 @@ grid1 <- cowplot::plot_grid(g1$sd_plot + theme(legend.position = "none"),
                             g3$sd_plot + theme(legend.position = "none"), nrow = 1)
 
 cowplot::plot_grid(grid1, leg, nrow = 2, rel_heights = c(1, 0.1))
+ggsave('sims_output/elbow-sd_sims.png', width = 8, height = 3.2, units = 'in')
 
 
 ###### Aggregate Learning Curve #########
@@ -124,10 +127,8 @@ ggplot(long_sims, aes(x = n)) +
   geom_point(data = elbow_agg, aes(x = Sequence, y = prop_correct, color = "Observed"), size = 1.5) +
   # geom_line(aes(y = mid50, color = "Sim Median"), size = 1, alpha = 0.7) +
   geom_smooth(aes(y = mid50, color = "Median Trend"), method = "loess", size = 1, se = F) +
-  scale_color_manual(
-    name = "",  
-    values = c(
-      `Median Trend` = "darkred",
+  scale_color_manual(name = "",  
+    values = c(`Median Trend` = "darkred",
       `50% PI`= "skyblue4", 
       `95% PI` = "gray65",
       `Observed` = "black"),
@@ -140,7 +141,7 @@ ggplot(long_sims, aes(x = n)) +
   theme_classic() -> p2
 
 cowplot::plot_grid(p1, p2, rel_widths = c(0.8, 1.1))
-
+ggsave('sims_output/elbow-sims_v_observed.png', width = 8, height = 3.2, units = 'in')
 
 #################################
 #### New Data Predictions #######
@@ -331,28 +332,6 @@ m1.ecg <- glmer(correctDx ~ 1 + sclSeq*caseType2 + (1 + sclSeq|userId), data = e
                    family = binomial(link = "logit"), control = glmerControl(optimizer = "bobyqa"))
 
 
-#########################################
-# Plot Predictions for one single learner
-########################################
-
-# elbows_pred_interval <- merTools::predictInterval(m1.elbows, type = "probability", level = 0.95,
-#                                        newdata = elbows_test, include.resid.var = F, n.sims = 2000, )
-
-
-# ecg_rater1 <- elbow_plot[elbow_plot$RaterID == 50, ]
-# 
-# ggplot(data = elbow_rater1, aes(x = Sequence, y = fit, ymin = lwr, ymax = upr, color = CaseType2)) +
-#   geom_pointrange(alpha = 0.7) +
-#   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
-#   labs(y = "Probability of Correct Response", color = "Diagnosis",
-#        x = "Sequence",
-#        subtitle = paste0("Elbow Dataset - Learner ", 50)) + scale_color_brewer(palette = "Set2") +
-#   theme_classic() +
-#   theme(legend.position = "bottom", legend.title = element_blank(),
-#         legend.text = element_text(size = 18),
-#         axis.text = element_text(size = 18),
-#         axis.title = element_text(size = 19), title = element_text(size = 20))
-
 ################### Model Evaluation ###############
 ## Simulations
 ####################################################
@@ -388,8 +367,6 @@ grid1 <- cowplot::plot_grid(g1$sd_plot + theme(legend.position = "none"),
                             g2$sd_plot + theme(legend.position = "none"), 
                             g3$sd_plot + theme(legend.position = "none"), nrow = 1)
 cowplot::plot_grid(grid1, leg, nrow = 2, rel_heights = c(1, 0.1))
-
-
 
 ###### Aggregate Learning Curve #########
 # Plot proportion: Selected test statistic

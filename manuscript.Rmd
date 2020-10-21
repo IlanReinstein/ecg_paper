@@ -3,7 +3,8 @@ title: "Shrinkage Figures and Models"
 output: html_document
 ---
 
-# Linear Models - Section 3
+# Section 3
+## Linear Models
 
 ```{r load_data, include=FALSE}
 knitr::opts_chunk$set(warning = F, message = F)
@@ -139,10 +140,58 @@ ggplot(rater_subset) +
   labs(y = "Predicted Bin Score")
 ```
 
+## Logistic Models
 ### Figure 5
 
-```{r}
+```{r fig.width=8, fig.height=4.5}
+df_models <- read.csv('data/output/logistic_models_summary.csv')
+df_models %>%
+  ggplot(aes(Sequence, Accuracy, group = RaterID)) +
+  geom_smooth(method = "glm", method.args = list(family = binomial), se = F,
+              size = 0.5, alpha =  0.5, color = color_pals[2]) +
+  geom_smooth(method = "glm", method.args = list(family = binomial), se = F,
+              group = 1, size = 0.5, alpha =  0.5, color = color_pals[1]) +
+  # geom_point(alpha = 0.7, position = jit_pos) + 
+  # geom_curve(aes(intercept = Intercept, slope = Slope_Seq), color = color_pals[1], size = .75) + 
+  tidybayes::theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent) + 
+  # scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+#limits = c(0, 4)) + 
+  labs(title = "Complete and No Pooling", 
+       subtitle = "Elbow Dataset - Nonlinear Learning",
+       y = "Probability of Correct Response") -> p1
 
+df_models %>%
+  filter(Model == "Random Intercept") %>%
+  ggplot(aes(Sequence, Accuracy, group = RaterID)) +
+  geom_line(aes(y = prob), color = green) +
+  geom_smooth(method = "glm", method.args = list(family = binomial), se = F,
+              group = 1, size = 0.5, alpha =  0.5, color = red) +
+  # geom_point(alpha = 0.7, position = jit_pos) + 
+  # geom_curve(aes(intercept = Intercept, slope = Slope_Seq), color = color_pals[1], size = .75) + 
+  tidybayes::theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) + 
+  # scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+#limits = c(0, 4)) + 
+  labs(title = "Random Intercept", 
+       subtitle = "Elbow Dataset - Nonlinear Learning",
+       y = "Probability of Correct Response") -> p2
+
+df_models %>%
+  filter(Model == "Random Coefs") %>%
+  ggplot(aes(Sequence, Accuracy, group = RaterID)) +
+  geom_line(aes(y = prob), color = color_pals[4]) +
+  geom_smooth(method = "glm", method.args = list(family = binomial), se = F,
+              group = 1, size = 0.5, alpha =  0.5, color = red) +
+  # geom_point(alpha = 0.7, position = jit_pos) + 
+  # geom_curve(aes(intercept = Intercept, slope = Slope_Seq), color = color_pals[1], size = .75) + 
+  tidybayes::theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) + 
+  # scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+#limits = c(0, 4)) + 
+  labs(title = "Random Intercept and Slopes", 
+       subtitle = "Elbow Dataset - Nonlinear Learning",
+       y = "Probability of Correct Response") -> p3
+
+
+cowplot::plot_grid(p1, p2, p3, nrow = 1)
 ```
 
 ### Figure 6
@@ -181,8 +230,9 @@ ggplot(test_info_ecg, aes(x = theta, y = prob, group = reorder(item, diff, mean)
 
 ### Figure 7a
 
-```{r}
-lltm_elbows <- read.csv('data/output/LLTM-elbows.csv')
+```{r diff-dist-elbow, fig.width=8.5}
+lltm_elbows <- readRDS('data/output/LLTM-elbows.rds')
+# lltm_elbows$CaseDx <- factor(lltm_elbows$CaseDx, levels = lltm_data$CaseDx)
 lltm_elbows  %>% 
   ggplot(aes(x = CaseDx, y = FE_dx + RE_item, fill = CaseDx)) + 
   geom_boxplot(alpha = 0.75, outlier.alpha = 0.5, outlier.size = 1) +
@@ -205,8 +255,8 @@ lltm_elbows  %>%
 
 ### Figure 7b
 
-```{r}
-lltm_ecg <- read.csv('data/output/LLTM-ecg.csv')
+```{r diff-dist-ecg, fig.width=8.5}
+lltm_ecg <- readRDS('data/output/LLTM-ecg.rds')
 lltm_ecg %>% 
   ggplot(aes(x = cardiologistDxLabel, y = FE_dx + RE_item, fill = cardiologistDxLabel)) + 
   geom_boxplot(alpha = 0.75, outlier.alpha = 0.5, outlier.size = 1) +
