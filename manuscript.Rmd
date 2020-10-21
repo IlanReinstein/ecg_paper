@@ -1,28 +1,231 @@
 ---
-title: "manuscript"
+title: "Shrinkage Figures and Models"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Linear Models - Section 3
+
+```{r load_data, include=FALSE}
+knitr::opts_chunk$set(warning = F, message = F)
+
+library(tidyverse)
+library(lme4)
+library(tidybayes)
+
+rm(list = ls())
+
+color_pals <- RColorBrewer::brewer.pal(5, "Set1")
+red <- color_pals[1]
+blue <- color_pals[2]
+green <- color_pals[3]
+jit_pos <- position_jitter(width = 0.05, height = 0.02, seed = 42)
+
+
 ```
 
-## R Markdown
+### Figure 1
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r figure1, fig.height=3.7, fig.width=8}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+df_models <- read.csv('data/output/linear_models_summary.csv')
 
-```{r cars}
-summary(cars)
+pool_intercept <- df_models[df_models$Model == "Complete pooling",'Intercept'][1]
+pool_slope <- df_models[df_models$Model == "Complete pooling",'Slope_Bin'][1]
+
+df_models %>%
+  filter(Model %in% c("Complete pooling")) %>%
+  ggplot(aes(Bin, rater_score)) + 
+  geom_point(alpha = 0.7, position = jit_pos) + 
+  geom_abline(aes(intercept = Intercept, slope = Slope_Bin), color = color_pals[1], size = .75) + 
+  theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent) + 
+  scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+#limits = c(0, 4)) + 
+  labs(title = "Aggregate Regression - Complete Pooling", subtitle = "Elbow Dataset - Linear Learning",
+       y = "Predicted Bin Score") -> pool_plot
+
+df_models %>%
+  filter(Model %in% c("No pooling")) %>%
+  ggplot(aes(Bin, rater_score)) + 
+  geom_abline(aes(intercept = Intercept, slope = Slope_Bin), color = color_pals[2], size = .5, alpha = 0.5) + 
+  geom_point(alpha = 0.7, position = jit_pos) +
+  geom_abline(aes(intercept = pool_intercept, slope = pool_slope), color = color_pals[1], size = 0.6)+
+  theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent) + 
+  scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+ #limits = c(0, 4)) +
+  labs(title = "Individual Regressions - No pooling",
+       y = "Predicted Bin Score", 
+       subtitle = "Elbow Dataset - Linear Learning") -> no_pool_plot
+
+# Figure 1, 800*370
+cowplot::plot_grid(pool_plot, no_pool_plot)
 ```
 
-## Including Plots
+### Figure 2
 
-You can also embed plots, for example:
+```{r figure2, fig.height=3.7, fig.width=8}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+df_models %>%
+  filter(Model %in% c("Random Intercept")) %>%
+  ggplot(aes(Bin, rater_score)) + 
+  geom_abline(aes(intercept = Intercept, slope = Slope_Bin), color = color_pals[3], size = .65, alpha = 0.5) + 
+  geom_point(alpha = 0.7, position = jit_pos) +
+  geom_abline(aes(intercept = pool_intercept, slope = pool_slope), color = color_pals[1], size = 0.6)+
+  theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent) + 
+  scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+ #limits = c(0, 4)) +
+  labs(title = "Random Intercepts",
+       y = "Predicted Bin Score",
+       subtitle = "Elbow Dataset - Linear Learning") -> ri_plot
+
+cowplot::plot_grid(no_pool_plot, ri_plot)
+
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### Figure 3
+
+```{r figure3, fig.height=3.7, fig.width=8}
+
+df_models %>%
+  filter(Model %in% c("Random Coefs")) %>%
+  ggplot(aes(Bin, rater_score)) + 
+  geom_abline(aes(intercept = Intercept, slope = Slope_Bin), color = color_pals[4], size = .65, alpha = 0.5) + 
+  geom_point(alpha = 0.7, position = jit_pos) +
+  geom_abline(aes(intercept = pool_intercept, slope = pool_slope), color = color_pals[1], size = 0.7)+
+  theme_tidybayes() + 
+  scale_y_continuous(labels = scales::percent) + 
+  scale_x_continuous(labels = c("0-20", "21-40", "41-60", "61-80"))+ #limits = c(0, 4)) +
+  labs(title = "Random Intercept and Slopes",
+       y = "Predicted Bin Score", 
+       subtitle = "Elbow Dataset - Linear Learning") -> rc_plot
+
+cowplot::plot_grid(ri_plot, rc_plot)
+```
+
+### Figure 4
+
+```{r}
+elbowsBin <- readRDS("data/interim/train_elbows_bins.rds")
+# Sort by score
+
+sort_raters <- elbowsBin %>%
+  group_by(RaterID) %>%
+  summarise(total_score = mean(rater_score)) %>%
+  arrange(desc(total_score)) %>%
+  pull(RaterID)
+
+# List of raters of interest for final table
+selected_raters <- sort_raters[seq(1, 226, 27)][c(1:4,6:9)]
+
+rater_subset <- df_models %>% 
+  filter(RaterID %in% selected_raters) %>%
+  mutate(ID = factor(RaterID, levels = selected_raters, labels = paste0("ID ", selected_raters)))
+
+ggplot(rater_subset) + 
+  aes(x = Bin, y = rater_score) + 
+  # Set the color mapping in this layer so the points don't get a color
+  geom_abline(aes(intercept = Intercept, slope = Slope_Bin, 
+                  color = Model),
+              size = .75) + 
+  geom_point() +
+  facet_wrap(~ ID, nrow = 2) +
+  # labs(x = xlab, y = ylab) + 
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(limits = c(0,4)) + 
+  theme_tidybayes() +
+  # Fix the color palette 
+  scale_color_brewer(palette = "Set1") + 
+  theme(legend.position = "none") + 
+  labs(y = "Predicted Bin Score")
+```
+
+### Figure 5
+
+```{r}
+
+```
+
+### Figure 6
+
+**Elbow**
+
+```{r icc-elbows, fig.height=5, fig.width=5}
+test_info_elbows <- read.csv('data/output/1PL-elbows-ICC.csv')
+ggplot(test_info_elbows, aes(x = theta, y = prob, group = reorder(item, diff, mean))) +
+  geom_line(color = color_pals[2], alpha = 0.7) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = -7:7, limits = c(-7, 7)) +
+  labs(x = "Person ability", y = "Probability of correct response", colour = "Item",
+       title = "Joint Item Characteristic Plot", subtitle = "Elbow Dataset") + 
+  geom_segment(aes(y = 0.5, yend = 0.5, x = -Inf, xend = 4.156322), linetype = "dashed", alpha = 0.5, size = 0.2) +
+  geom_segment(aes(y = -Inf, yend = 0.5, x = 4.156322, xend = 4.156322), linetype = "dashed", alpha = 0.5, size = 0.2) +
+  tidybayes::theme_tidybayes()
+```
+
+
+**ECG**
+
+```{r icc-ecg, fig.height=5, fig.width=5}
+test_info_ecg <- read.csv('data/output/1PL-ecg-ICC.csv')
+ggplot(test_info_ecg, aes(x = theta, y = prob, group = reorder(item, diff, mean))) + geom_line(color = blue, alpha = 0.7) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = -6:6, limits = c(-6, 6)) +
+  labs(x = "Person ability", y = "Probability of correct response", colour = "Item",
+       title = "Joint Item Characteristic Plot", subtitle = "ECG Dataset")+
+  tidybayes::theme_tidybayes()
+
+
+```
+
+
+
+### Figure 7a
+
+```{r}
+lltm_elbows <- read.csv('data/output/LLTM-elbows.csv')
+lltm_elbows  %>% 
+  ggplot(aes(x = CaseDx, y = FE_dx + RE_item, fill = CaseDx)) + 
+  geom_boxplot(alpha = 0.75, outlier.alpha = 0.5, outlier.size = 1) +
+  geom_point(size = 2, alpha = 0.7, show.legend = F) +
+  # geom_point(aes(y = FE_dx + logit)) + 
+  geom_point(aes(y = FE_dx), shape = 18, size = 6, show.legend = F) +
+  theme_tidybayes() +
+  theme(axis.ticks.x = element_blank(), legend.text = element_text(size = 14),
+        axis.text.x = element_blank(),
+        axis.text = element_text(size = 15),
+        axis.title = element_text(size = 17), title = element_text(size = 18)) +
+  scale_fill_brewer(palette = "Paired") + 
+  scale_y_continuous(limits = c(-4,4), breaks = seq(-4,4,1)) +
+  labs(y = "Log of Odds of Accurate Response", x = "", 
+       title = "Distributions of Difficulty by Diagnosis", 
+       subtitle = "Elbow Dataset",
+       fill = "Diagnosis")
+
+```
+
+### Figure 7b
+
+```{r}
+lltm_ecg <- read.csv('data/output/LLTM-ecg.csv')
+lltm_ecg %>% 
+  ggplot(aes(x = cardiologistDxLabel, y = FE_dx + RE_item, fill = cardiologistDxLabel)) + 
+  geom_boxplot(alpha = 0.75, outlier.alpha = 0.5, outlier.size = 1) +
+  geom_point(size = 2, alpha = 0.7, show.legend = F) +
+  # geom_point(aes(y = FE_dx + logit)) + 
+  geom_point(aes(y = FE_dx), shape = 18, size = 6, show.legend = F) +
+  theme_tidybayes() + 
+  theme(axis.ticks.x = element_blank(), 
+        legend.text = element_text(size = 13),
+        axis.text.x = element_blank(),
+        axis.text = element_text(size = 15),
+        axis.title = element_text(size = 17), 
+        title = element_text(size = 18)) +
+  scale_fill_brewer(palette = "Paired") + 
+  scale_y_continuous(limits = c(-4, 4), breaks = seq(-4,4,1)) +
+  labs(y = "Log of Odds of Accurate Response", x = "", 
+       title = "Distributions of Difficulty by Diagnosis", 
+       subtitle = "ECG Dataset",
+       fill = "Diagnosis")
+
+```
+

@@ -1,0 +1,101 @@
+"","ecgId","dx","RE_item","cardiologistDxLabel","FE_dx"
+"1","18749","Normal ECG",0.624399791740249,"Normal ECG",-0.671360624105094
+"2","18884","Normal ECG",0.860819540351412,"Normal ECG",-0.671360624105094
+"3","18886","Normal ECG",-1.1814593530368,"Normal ECG",-0.671360624105094
+"4","19039","Normal ECG",0.738962081762506,"Normal ECG",-0.671360624105094
+"5","19255","Normal ECG",-1.09920772861601,"Normal ECG",-0.671360624105094
+"6","19274","Normal ECG",1.65506399626141,"Normal ECG",-0.671360624105094
+"7","19378","Normal ECG",0.463680287116879,"Normal ECG",-0.671360624105094
+"8","20121","Normal ECG",-1.71558753072714,"Normal ECG",-0.671360624105094
+"9","20593","Normal ECG",-0.541876136121114,"Normal ECG",-0.671360624105094
+"10","21554","Normal ECG",0.624399791740249,"Normal ECG",-0.671360624105094
+"11","23855","Normal ECG",-0.341668168712524,"Normal ECG",-0.671360624105094
+"12","25592","Normal ECG",-0.21885676514466,"Normal ECG",-0.671360624105094
+"13","25654","Normal ECG",-0.0502035895916554,"Normal ECG",-0.671360624105094
+"14","40759","Normal ECG",1.76332595321672,"Normal ECG",-0.671360624105094
+"15","40762","Normal ECG",-1.01807395540497,"Normal ECG",-0.671360624105094
+"16","41765","Normal ECG",1.37169116223165,"Normal ECG",-0.671360624105094
+"17","44199","Normal ECG",-2.14481149440844,"Normal ECG",-0.671360624105094
+"18","45041","Normal ECG",-1.09920772861601,"Normal ECG",-0.671360624105094
+"19","45065","Normal ECG",-0.0929985756197533,"Normal ECG",-0.671360624105094
+"20","90128","Normal ECG",1.28801524026792,"Normal ECG",-0.671360624105094
+"21","18953","Acute pericarditis",0.0611261269199073,"Acute pericarditis",1.16557698297878
+"22","19623","Acute pericarditis",-0.0320199071866865,"Acute pericarditis",1.16557698297878
+"23","20405","Acute pericarditis",-0.0557511860332142,"Acute pericarditis",1.16557698297878
+"24","21961","Acute pericarditis",-0.014082283848471,"Acute pericarditis",1.16557698297878
+"25","59331","Acute pericarditis",0.133706205015787,"Acute pericarditis",1.16557698297878
+"26","70456","Acute pericarditis",-0.0870187811747791,"Acute pericarditis",1.16557698297878
+"27","76512","Acute pericarditis",-0.081539734816889,"Acute pericarditis",1.16557698297878
+"28","78291","Acute pericarditis",-0.0413110183582121,"Acute pericarditis",1.16557698297878
+"29","82000","Acute pericarditis",0.0570272230515395,"Acute pericarditis",1.16557698297878
+"30","94474","Acute pericarditis",0.0693430772636537,"Acute pericarditis",1.16557698297878
+"31","34395","Brugada abnormality",-0.123449368635474,"Brugada abnormality",0.493517622956578
+"32","35793","Brugada abnormality",0.607861141670595,"Brugada abnormality",0.493517622956578
+"33","39185","Brugada abnormality",-1.29775382838877,"Brugada abnormality",0.493517622956578
+"34","71891","Brugada abnormality",0.807331048940494,"Brugada abnormality",0.493517622956578
+"35","18726","Early repolarization",0.124548096536908,"Early repolarization",1.55554241093463
+"36","18873","Early repolarization",0.0393735895298622,"Early repolarization",1.55554241093463
+"37","19017","Early repolarization",-0.588832955626027,"Early repolarization",1.55554241093463
+"38","21667","Early repolarization",0.374692963988355,"Early repolarization",1.55554241093463
+"39","47847","Early repolarization",-1.63103185341865,"Early repolarization",1.55554241093463
+"40","97715","Early repolarization",-0.588832955626027,"Early repolarization",1.55554241093463
+"41","97811","Early repolarization",-1.08288009572243,"Early repolarization",1.55554241093463
+"42","98715","Early repolarization",1.1660623549783,"Early repolarization",1.55554241093463
+"43","99477","Early repolarization",1.16606235497829,"Early repolarization",1.55554241093463
+"44","99543","Early repolarization",1.3191824453161,"Early repolarization",1.55554241093463
+"45","22510","Hyperkalemia",-0.178954047743674,"Hyperkalemia",-0.0561411505753661
+"46","30366","Hyperkalemia",-0.276933268051208,"Hyperkalemia",-0.0561411505753661
+"47","40362","Hyperkalemia",0.181013434801519,"Hyperkalemia",-0.0561411505753661
+"48","55275","Hyperkalemia",0.102699737747932,"Hyperkalemia",-0.0561411505753661
+"49","88733","Hyperkalemia",0.145175608464425,"Hyperkalemia",-0.0561411505753661
+"50","19758","Left Bundle Branch Block",-1.46496155523424,"Left Bundle Branch Block",0.376000219557547
+"51","19992","Left Bundle Branch Block",0.96952042598055,"Left Bundle Branch Block",0.376000219557547
+"52","20107","Left Bundle Branch Block",0.794722220660456,"Left Bundle Branch Block",0.376000219557547
+"53","20226","Left Bundle Branch Block",-0.511763354673823,"Left Bundle Branch Block",0.376000219557547
+"54","20331","Left Bundle Branch Block",0.708713227336897,"Left Bundle Branch Block",0.376000219557547
+"55","20471","Left Bundle Branch Block",0.62354245294746,"Left Bundle Branch Block",0.376000219557547
+"56","86388","Left Bundle Branch Block",-3.0486976115695,"Left Bundle Branch Block",0.376000219557547
+"57","92906","Left Bundle Branch Block",1.61864930907555,"Left Bundle Branch Block",0.376000219557547
+"58","94413","Left Bundle Branch Block",-0.114773503471244,"Left Bundle Branch Block",0.376000219557547
+"59","98796","Left Bundle Branch Block",-0.114773503471245,"Left Bundle Branch Block",0.376000219557547
+"60","99204","Left Bundle Branch Block",0.372448661236694,"Left Bundle Branch Block",0.376000219557547
+"61","58669","Left ventricular hypertrophy",-0.113990320296388,"Left ventricular hypertrophy",1.94053319074307
+"62","58841","Left ventricular hypertrophy",-0.351462356697219,"Left ventricular hypertrophy",1.94053319074307
+"63","58885","Left ventricular hypertrophy",-1.23430680584003,"Left ventricular hypertrophy",1.94053319074307
+"64","59029","Left ventricular hypertrophy",-0.00101041201395654,"Left ventricular hypertrophy",1.94053319074307
+"65","97313","Left ventricular hypertrophy",1.0318248853128,"Left ventricular hypertrophy",1.94053319074307
+"66","97653","Left ventricular hypertrophy",0.533292859865316,"Left ventricular hypertrophy",1.94053319074307
+"67","97980","Left ventricular hypertrophy",0.0975792010683728,"Left ventricular hypertrophy",1.94053319074307
+"68","98008","Left ventricular hypertrophy",-0.0666145749179942,"Left ventricular hypertrophy",1.94053319074307
+"69","98184","Left ventricular hypertrophy",0.456981525354044,"Left ventricular hypertrophy",1.94053319074307
+"70","99680","Left ventricular hypertrophy",-0.192235460073344,"Left ventricular hypertrophy",1.94053319074307
+"71","19002","STEMI - Anterior",0.150386951463165,"STEMI - Anterior",0.330511582131217
+"72","22219","STEMI - Anterior",0.274619462566402,"STEMI - Anterior",0.330511582131217
+"73","23770","STEMI - Anterior",0.00729904470955695,"STEMI - Anterior",0.330511582131217
+"74","26422","STEMI - Anterior",0.293803659301808,"STEMI - Anterior",0.330511582131217
+"75","27715","STEMI - Anterior",0.069293615217926,"STEMI - Anterior",0.330511582131217
+"76","28133","STEMI - Anterior",0.708856000933261,"STEMI - Anterior",0.330511582131217
+"77","29147","STEMI - Anterior",-0.201378367825253,"STEMI - Anterior",0.330511582131217
+"78","35799","STEMI - Anterior",-0.127292531376659,"STEMI - Anterior",0.330511582131217
+"79","52495","STEMI - Anterior",0.575688084547131,"STEMI - Anterior",0.330511582131217
+"80","71402","STEMI - Anterior",-0.0976868704463902,"STEMI - Anterior",0.330511582131217
+"81","89318","STEMI - Anterior",0.672373985806069,"STEMI - Anterior",0.330511582131217
+"82","92492","STEMI - Anterior",0.133765932401783,"STEMI - Anterior",0.330511582131217
+"83","92611","STEMI - Anterior",-0.817238760771511,"STEMI - Anterior",0.330511582131217
+"84","92708","STEMI - Anterior",-0.370337677181453,"STEMI - Anterior",0.330511582131217
+"85","99549","STEMI - Anterior",-1.30170010614242,"STEMI - Anterior",0.330511582131217
+"86","18928","STEMI - Inferior or Inferolateral",0.572515728081169,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"87","21381","STEMI - Inferior or Inferolateral",1.02726929324346,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"88","26545","STEMI - Inferior or Inferolateral",0.00212674380714593,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"89","29030","STEMI - Inferior or Inferolateral",-0.295799473705554,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"90","29264","STEMI - Inferior or Inferolateral",-0.250342778199935,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"91","55352","STEMI - Inferior or Inferolateral",-1.029199656161,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"92","66569","STEMI - Inferior or Inferolateral",-0.919567488799663,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"93","76557","STEMI - Inferior or Inferolateral",-0.404880696168391,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"94","78139","STEMI - Inferior or Inferolateral",0.258222623830242,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"95","79306","STEMI - Inferior or Inferolateral",-0.44711453415175,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"96","94437","STEMI - Inferior or Inferolateral",0.0902007059351273,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"97","96796","STEMI - Inferior or Inferolateral",-0.509402715525884,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"98","97100","STEMI - Inferior or Inferolateral",0.630530753606664,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"99","97258","STEMI - Inferior or Inferolateral",0.763169294671589,"STEMI - Inferior or Inferolateral",-0.589229678892754
+"100","97314","STEMI - Inferior or Inferolateral",0.258222623830244,"STEMI - Inferior or Inferolateral",-0.589229678892754
