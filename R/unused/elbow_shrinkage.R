@@ -2,11 +2,11 @@ library(tidyverse)
 library(ggplot2)
 library(lme4)
 
-library(arm)
-library(magrittr)
-library(bayesplot)
-library(sjPlot)
-library(tidybayes)
+# library(arm)
+# library(magrittr)
+# library(bayesplot)
+# library(sjPlot)
+# library(tidybayes)
 
 options(digits = 2)
 options(mc.cores = parallel::detectCores())
@@ -32,7 +32,7 @@ elbows$sclSeq <- elbows$Sequence/20
 ###### Multilevel Logistic - No Item or Diagnosis Effects
 elbows$tSeq <- elbows$Sequence - 1
 # Population level, Complete Pooling Model
-nlm0 <- glm(Accuracy ~ tSeq, data = elbows, family = binomial(link = "logit"))
+nlm0 <- glm(Accuracy ~ sclSeq, data = elbows, family = binomial(link = "logit"))
 # stan_nlm0 <- stan_glm(Accuracy ~ Sequence, data = train, family = binomial(link = "logit"))
 summary(nlm0)
 sjPlot::get_model_data(nlm0, transform = "plogis")
@@ -55,7 +55,7 @@ nlm1.elbows <- glmer(Accuracy ~ sclSeq + (1 |RaterID), data = elbows, family = b
 summary(nlm1.elbows)
 
 # Join Table with prediction for Within-learner learning curve
-elbowPlot <- bind_cols(train, predictInterval(nlm1.elbows, include.resid.var = F,type = "probability", stat = "median"))
+elbowPlot <- bind_cols(elbows, predictInterval(nlm1.elbows, include.resid.var = F,type = "probability", stat = "median"))
 
 # Single learner curve, No Diagnosis
 green <- RColorBrewer::brewer.pal(3, "Set2")[1]
@@ -100,7 +100,7 @@ elbowPlot %>% filter(RaterID == 50) %>%
 # saveRDS(one_pl.elbow, "models/1pl-elbows_3-2019.rds")
 
 # For time saving, load previously fitted model
-one_pl.elbow <- readRDS("models/1pl-elbows_3-2019.rds")
+one_pl.elbow <- readRDS("models/1PL-elbows.rds")
 summary(one_pl.elbow)
 # Extract parameter estimates for item difficulties
 
@@ -163,7 +163,7 @@ ggplot(test.info.df, aes(x = theta, y = prob, group = reorder(item, diff, mean))
 # saveRDS(lltm.elbow , "models/lltm-elbows_4-2019.rds")
 
 # LOAD Model
-lltm.elbow <-  readRDS("models/lltm-elbows_4-2019.rds")
+lltm.elbow <-  readRDS("models/LLTM-elbows.rds")
 
 # Extract Fixed effects for each diagnosis
 
@@ -215,7 +215,7 @@ item_lltm_data  %>%
 
 item_lltm_data %>% 
   left_join(one_pl_data) %>%
-  left_join(train) %>% 
+  left_join(elbows) %>% 
   arrange(RaterID, Sequence)-> elbows_wide
 
 elbows_wide$CaseDx <- relevel(factor(elbows_wide$CaseDx), ref = "Normal")
@@ -350,16 +350,16 @@ elbowPlot %>% filter(RaterID == 34) %>%
 
 #### NORMAL-ABNORMAL-SUPRACONDYLAR ####
 
-m3.1.elbows <- glmer(Accuracy ~ 1 + sclSeq*CaseType2 + (1 + sclSeq|RaterID), data = train, 
+m3.1.elbows <- glmer(Accuracy ~ 1 + sclSeq*CaseType2 + (1 + sclSeq|RaterID), data = elbows, 
                      family = binomial(link = "logit"), control = glmerControl(optimizer = "bobyqa"))
 
-predp <- predict(m3.1.elbows, newdata = test, allow.new.levels = T, type = "response")
-print(c(mean(predp[test$Accuracy == 1]), mean(1 - predp[test$Accuracy == 0])))
-print(sum(log(c(predp[test$Accuracy == 1], 1 - predp[test$Accuracy == 0]))))
+predp <- predict(m3.1.elbows, allow.new.levels = T, type = "response")
+print(c(mean(predp[elbows$Accuracy == 1]), mean(1 - predp[test$Accuracy == 0])))
+print(sum(log(c(predp[elbows$Accuracy == 1], 1 - predp[test$Accuracy == 0]))))
 
 # Within-learner prediciton interval
 
-elbowPlot.3dx <- bind_cols(train, predictInterval(m3.1.elbows, type = "probability", include.resid.var = F))
+elbowPlot.3dx <- bind_cols(elbows, predictInterval(m3.1.elbows, type = "probability", include.resid.var = F))
 elbowPlot.3dx2 <- bind_cols(test, predictInterval(m3.1.elbows, newdata = test, type = "probability", include.resid.var = F))
 # Individual learning curve
 
@@ -374,7 +374,7 @@ elbowPlot.3dx2$CaseType2 <- factor(elbowPlot.3dx2$CaseType2,
                                   labels =  c("Normal (N = 8)", "Supracondylar (N = 6)", "Abnormal/Other (N = 6)"),
                                   levels = c("Normal", "Supracondylar", "Abnormal/Other"))
 
-elbowPlot.3dx2 %>% filter(RaterID == 50) %>%
+elbowPlot.3dx %>% filter(RaterID == 34) %>%
   ggplot( aes(x = Sequence + 80, y = fit, ymin = lwr, ymax = upr, color = CaseType2)) + 
   geom_pointrange(alpha = 0.7) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L), #limits = c(0.4, 0.9) ,

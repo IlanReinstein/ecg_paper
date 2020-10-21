@@ -143,7 +143,7 @@ ggplot(rater_subset) +
 ## Logistic Models
 ### Figure 5
 
-```{r fig.width=8, fig.height=4.5}
+```{r fig.width=9.5, fig.height=3.7}
 df_models <- read.csv('data/output/logistic_models_summary.csv')
 df_models %>%
   ggplot(aes(Sequence, Accuracy, group = RaterID)) +
@@ -190,7 +190,7 @@ df_models %>%
        subtitle = "Elbow Dataset - Nonlinear Learning",
        y = "Probability of Correct Response") -> p3
 
-
+# Figure 5, 800*370
 cowplot::plot_grid(p1, p2, p3, nrow = 1)
 ```
 
@@ -278,4 +278,41 @@ lltm_ecg %>%
        fill = "Diagnosis")
 
 ```
+
+
+# Figure 9
+
+```{r single_learning_curve, fig.height=5, fig.width=6}
+elbows <- readRDS("data/interim/train_elbows.rds")
+m2 <- readRDS('models/mlm_logistic_Dx.rds')
+rater1 <- elbows[elbows$RaterID == 34,]
+rater1$sclSeq <- rater1$Sequence/20
+rater_plot <- cbind(rater1, merTools::predictInterval(m2, newdata = rater1, level = 0.95,
+                                            n.sims=5000, type = 'probability',
+                                            include.resid.var = F))
+
+ggplot(data = rater_plot, aes(x = Sequence, y = fit, ymin = lwr, ymax = upr, color = CaseType2)) +
+  geom_pointrange(alpha = 0.7) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(y = "Probability of Correct Response", color = "Diagnosis",
+       x = "Sequence",
+       subtitle = paste0("Elbow Dataset - Learner ", 34)) + scale_color_brewer(palette = "Set2") +
+  theme_classic() +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        legend.text = element_text(size = 14),
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 15), title = element_text(size = 16))
+
+```
+
+
+
+## Model Evalutaion and Simulation
+
+Test statistic: Mean and Standard Deviation of the Total Number of correct responses across all learners
+
+![Mean Simulations and Comparison](sims_output/elbow-mean_sims.png)
+
+![Standard Deviation Simulations and Comparison](sims_output/elbow-sd_sims.png)
+
 
