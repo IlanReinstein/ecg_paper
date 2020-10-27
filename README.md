@@ -1,4 +1,4 @@
-# ECG and Elbow Radiograph 
+# Multi-level logistic models for adaptive learning of visual diagnosis
 
 This repository contains the code and data used to generate the models and plots presented in our paper **Multi-level longitudinal learning curve regression models integrated with item difficulty metrics for deliberate practice of visual diagnosis: groundwork for adaptive learning.**
 
