@@ -2,13 +2,11 @@
 
 Visual diagnosis of radiographs, histology and electrocardiograms lends itself to deliberate practice, facilitated by large online banks of cases. Which cases to supply to which learners in which order is still to be worked out, with there being considerable potential for adapting the learning. Advances in statistical modeling, based on an accumulating learning curve, offer methods for more effectively pairing learners with cases of known calibrations. Using demonstration radiograph and electrocardiogram datasets, the advantages of moving from traditional regression to multilevel methods for modeling growth in ability or performance are demonstrated, with a final step of integrating case-level item-response information based on diagnostic grouping. This produces more precise individual-level estimates that can eventually support learner- adaptive case selection. The progressive increase in model sophistication is not simply statistical but rather brings the models into alignment with core learning principles including the importance of taking into account individual differences in baseline skill and learning rate as well as the differential interaction with cases of varying diagnosis and difficulty. The developed approach can thus give researchers and educators a better basis on which to anticipate learners’ pathways and individually adapt their future learning.
 
+Read the full paper here (ToDo)
+
 --------
 
 This repository contains the code and data used to generate the models and plots presented in our paper **Multi-level longitudinal learning curve regression models integrated with item difficulty metrics for deliberate practice of visual diagnosis: groundwork for adaptive learning.**
-
-## Paper
-
-The paper for this repository can be found here (TODO).
 
 The structure of this project is such that all R scripts should be run before rendering the final report `manuscript.Rmd` file. The order in which it is run is consistent with each of the sections of the paper:
 
